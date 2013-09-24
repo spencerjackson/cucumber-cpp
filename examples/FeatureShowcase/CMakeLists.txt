@@ -18,5 +18,11 @@ if(GTEST_FOUND)
         features/step_definitions/TagSteps
         features/step_definitions/TableSteps
     )
+
+
+    install(DIRECTORY features DESTINATION ${CUCUMBER_CPP_DOC_SUBDIR}/examples/FeatureShowcase)
+    install(TARGETS FeatureShowcaseSteps
+        RUNTIME DESTINATION ${CUCUMBER_CPP_DOC_SUBDIR}/examples/FeatureShowcase
+    )
 endif()
 

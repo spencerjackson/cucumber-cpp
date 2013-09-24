@@ -18,6 +18,7 @@ set(CUKE_SOURCES
 if(GTEST_FOUND)
     include_directories(${GTEST_INCLUDE_DIRS})
     list(APPEND CUKE_SOURCES drivers/GTestDriver.cpp)
+    list(APPEND CUKE_LINK_LIBRARIES pthread ${GTEST_LIBRARIES})
 endif()
 
 if(CPPSPEC_FOUND)
@@ -27,6 +28,7 @@ endif()
 
 if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
     list(APPEND CUKE_SOURCES drivers/BoostDriver.cpp)
+    list(APPEND CUKE_LINK_LIBRARIES ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 endif()
 
 if(CMAKE_EXTRA_GENERATOR OR MSVC_IDE)
@@ -38,4 +40,12 @@ if(CMAKE_EXTRA_GENERATOR OR MSVC_IDE)
     list(APPEND CUKE_SOURCES ${CUKE_HEADERS})
 endif()
 
-add_library(cucumber-cpp STATIC ${CUKE_SOURCES})
+add_library(cucumber-cpp SHARED ${CUKE_SOURCES})
+target_link_libraries(cucumber-cpp ${CUKE_LINK_LIBRARIES})
+
+install(DIRECTORY ${CUKE_INCLUDE_DIR}/cucumber-cpp DESTINATION include)
+install(DIRECTORY ${CUKE_INCLUDE_DIR}/json_spirit DESTINATION include)
+install(TARGETS cucumber-cpp
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)

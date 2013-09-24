@@ -13,9 +13,16 @@ if(QT4_FOUND)
         include_directories(${Boost_INCLUDE_DIRS})
         add_executable(BoostCalculatorQtSteps features/step_definitions/BoostCalculatorQtSteps)
         target_link_libraries(BoostCalculatorQtSteps CalcQt ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${CUKE_LIBRARIES} ${QT_LIBRARIES})
+        list(APPEND CALCQT_EXAMPLES BoostCalculatorQtSteps)
     endif()
 
     set(CALCQT_SOURCES src/CalcQt.cpp src/CalculatorWidget.cpp)
     add_executable(calcqt ${CALCQT_SOURCES} ${CALCQT_HEADERS_MOC})
     target_link_libraries(calcqt ${QT_LIBRARIES})
+    list(APPEND CALCQT_EXAMPLES calcqt)
+
+    install(DIRECTORY features DESTINATION ${CUCUMBER_CPP_DOC_SUBDIR}/examples/CalcQt)
+    install(TARGETS ${CALCQT_EXAMPLES}
+        RUNTIME DESTINATION ${CUCUMBER_CPP_DOC_SUBDIR}/examples/CalcQt
+    )
 endif()
